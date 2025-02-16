@@ -6,6 +6,7 @@ public class BallController : MonoBehaviour
     [SerializeField] private Transform ballAnchor;
     [SerializeField] private Transform launchIndicator;
 
+    [SerializeField] private InputManager inputManager;
     private Rigidbody ballRB;
     private bool isBallLaunched;
 
@@ -15,6 +16,8 @@ public class BallController : MonoBehaviour
         transform.parent = ballAnchor;
         transform.localPosition = Vector3.zero;
         ballRB.isKinematic = true;
+        ResetBall();
+        inputManager.OnSpacePressed.AddListener(LaunchBall);
     }
 
     public void LaunchBall()
@@ -33,7 +36,9 @@ public class BallController : MonoBehaviour
         isBallLaunched = false;
         ballRB.isKinematic = true;
         launchIndicator.gameObject.SetActive(true);
-        transform.parent = ballAnchor;
+        transform.SetParent(ballAnchor);
+        transform.position = ballAnchor.position;
+        transform.rotation = ballAnchor.rotation;
         transform.localPosition = Vector3.zero;
     }
 }
